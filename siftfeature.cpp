@@ -6,7 +6,10 @@
 //#include "stdafx.h"
 #include <iostream>
 #include <math.h>
+
+#ifdef WIN32
 #include "omp.h"
+#endif
 
 
 #include "siftfeature.h"
@@ -87,9 +90,12 @@ Feature** sift_features( float* imgdata,int colum,int row,int &keynumber,int &gr
 	gridc[gridcol-1]=((colum-1) % gridwidth)+1;
 
 	float*** griddata=new float**[gridrow];
+	
+#ifdef WIN32
 	int pros_num=omp_get_num_procs();
 	omp_set_num_threads(pros_num*3/4);
 #pragma omp parallel for
+#endif
 	for (int i=0;i<gridrow;i++)
 	{	
 		griddata[i]=new float* [gridcol];
@@ -102,8 +108,11 @@ Feature** sift_features( float* imgdata,int colum,int row,int &keynumber,int &gr
 
 	//分块提取特征点
 	Feature **feat=new Feature *[gridrow];
+	#ifdef WIN32
 	omp_set_num_threads(pros_num*3/4);
 #pragma omp parallel for
+#endif
+
 	for (int i=0;i<gridrow;i++)
 	{
 		feat[i]=new Feature [gridcol];
@@ -378,9 +387,11 @@ SCALESPACE** Build_Guss_Space(float* pimage,int oct_num,int col,int row)
 	}
 
 	/**********************************高斯卷积生成高斯空间***********************************/
+#ifdef WIN32
 	int pros_num=omp_get_num_procs();
 	omp_set_num_threads(pros_num*3/4);
 #pragma omp parallel for
+#endif
 	for (int i=0;i<oct_num;i++)
 	{
 		for (int j=0;j<SCALESPEROCTAVE+3;j++)//每组有SCALESPEROCTAVE+3层
@@ -451,9 +462,12 @@ float* Guss_Smooth(float *pre_data,int g_col,int g_row,float g_sigma)
 
 	//将二维高斯卷积分解为水平和竖直方向的两个一维卷积，先进行一维行卷积，利用其结果再进行列卷积
     /*********************************** 行方向高斯平滑***************************************/
+	#ifdef WIN32
 	int pros_num=omp_get_num_procs();
 	omp_set_num_threads(pros_num*3/4);
 #pragma omp parallel for
+#endif
+
 	for (int i=0;i<g_row;i++)
 	{
 		//每一行的前dim/2个像素没有平滑
@@ -484,8 +498,11 @@ float* Guss_Smooth(float *pre_data,int g_col,int g_row,float g_sigma)
 			nex_data[m*g_col+j]=temp_row[m*g_col+j];//直接赋值
 	
 	//对于中间数据，直接处理，不用考虑越界问题
+	#ifdef WIN32
 	omp_set_num_threads(pros_num*3/4);
 #pragma omp parallel for
+#endif
+
 	for (int i=r;i<g_row-r;i++)
 	{
 		for (int j=0;j<g_col;j++)
@@ -527,9 +544,12 @@ float* Guss_Smooth(float *pre_data,int g_col,int g_row,float g_sigma)
 ********************************************************/
 void Build_Dog_Space(SCALESPACE **ss,int octaves,int intvls)
 {
+	#ifdef WIN32
 	int pros_num=omp_get_num_procs();
 	omp_set_num_threads(pros_num*3/4);
 #pragma omp parallel for
+#endif
+
 	for (int o=0;o<octaves;o++)
 	{
 		for (int s=0;s<intvls+2;s++)
@@ -568,9 +588,12 @@ Key_Point* DetectKeypoint(SCALESPACE **ss,int octaves,int intvls,float contr_thr
 	Key_Point *keypoints= NULL;
 	//根据opencv中的公式将这阈值除以每组空间的层数-3
 	float prelim_contr_thr=0.5f*contr_thr/intvls;
+	#ifdef WIN32
 	int pros_num=omp_get_num_procs();
 	omp_set_num_threads(pros_num*3/4);
 #pragma omp parallel for
+#endif
+
 	for (int o=0;o<octaves;o++)
 	{
 		for (int s=1;s<=intvls;s++)

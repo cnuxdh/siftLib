@@ -7,8 +7,10 @@
 #include "siftfeature.h"
 #include "siftmatch.h"
 #include "publicfunction.h"
-#include "omp.h"
 
+#ifdef WIN32
+#include "omp.h"
+#endif
 
 
 

@@ -353,7 +353,7 @@ double** Least_Square(double** A,double** L,int &r,int c)
 			int tempr=0;//剔除误差后点的个数
 			for (int j=0;j<r;j+=2)
 			{
-				if ( abs(V[j][0])<3*sigma && abs(V[j+1][0])<3*sigma )
+				if ( fabs(V[j][0])<3*sigma && fabs(V[j+1][0])<3*sigma )
 				{			
 					memcpy(tempA[tempr],A[j],sizeof(double)*c);
 					tempL[tempr++]=L[j];
@@ -414,7 +414,7 @@ double** Least_Square(double** A,double** L,int &r,int c)
 
 			return NULL;
 		}
-	} while ( abs(sigma-pre_sigma)>0.01 && r>=c);
+	} while ( fabs(sigma-pre_sigma)>0.01 && r>=c);
 
 	for (int i=0;i<r;i++)
 	{
@@ -456,7 +456,7 @@ unsigned char *GetGrayData( unsigned char* imgdata,int colum,int row,int BitCoun
 		int perline=(colum*3+3)/4*4;
 		for (int i=0;i<row;i++)
 			for (int j=0;j<colum;j++)
-				imgraydata[i*colum+j]=unsigned char(0.114*imgdata[i*perline+3*j]+
+				imgraydata[i*colum+j]=(unsigned char)(0.114*imgdata[i*perline+3*j]+
 				0.587*imgdata[i*perline+3*j+1]+	0.299*imgdata[i*perline+3*j+2]);
 	}
 	return imgraydata;
