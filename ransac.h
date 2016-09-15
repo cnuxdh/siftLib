@@ -7,7 +7,10 @@
 
 #include "siftmatch.h"
 
-MatchPoints del_gross_error(MatchPoints matchpoints,int imgwidth,int imgheight);
+#include "siftExports.h"
+
+
+DLL_EXPORT MatchPoints del_gross_error(MatchPoints matchpoints,int imgwidth,int imgheight);
 extern double** inline_cal_trans(MatchPoint* pot,int &num);     
 
 
