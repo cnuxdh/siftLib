@@ -1,5 +1,10 @@
 //#include "stdafx.h"
+
+#ifdef WIN32
 #include <Windows.h>
+#endif
+
+
 #include "ransac.h"
 #include "publicfunction.h"
 
