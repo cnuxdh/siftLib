@@ -105,6 +105,7 @@ void SiftPairMatch(Key_Point* feat1, int nFeat1, Key_Point* feat2, int nFeat2, M
 			delete []nbrs;
 		}
 	}
+	kdtree_release(kd_root);
 
 	/************************************************************************/
 	/* 将链表存储改为数组存储                                               */

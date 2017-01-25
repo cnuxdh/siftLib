@@ -303,7 +303,7 @@ MatchPoints sift_ransac(MatchPoints pots,int imgwidth,int imgheight,int matnum,i
 		else
 		{
 			//¼ÆËãĞı×ª¾ØÕóHÊ§°Ü
-			cout<<"¼ÆËãĞı×ª¾ØÕóHÊ§°Ü£¡"<<endl;
+			//cout<<"¼ÆËãĞı×ª¾ØÕóHÊ§°Ü£¡"<<endl;
 			ransac_cir++;
 			continue;
 		}
@@ -603,8 +603,9 @@ double cal_mid_error(MatchPoint* pot,double** trans_h,double* dv,int num)
 		return Find_Mid(dv,num);
 	} 
 	else
-	{//Ğı×ª¾ØÕóHÇóÄæÊ§°Ü
-		cout<<"Ğı×ª¾ØÕóHÇóÄæÊ§°Ü£¡"<<endl;
+	{
+		//Ğı×ª¾ØÕóHÇóÄæÊ§°Ü
+		//cout<<"Ğı×ª¾ØÕóHÇóÄæÊ§°Ü£¡"<<endl;
 		//ÊÍ·ÅÄÚ´æ
 		for (int i=0;i<3;i++)
 		{
